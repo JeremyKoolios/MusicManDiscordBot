@@ -38,11 +38,12 @@ namespace DiscordMusicBot
         // Receives and processes every incoming discord message
         private Task CommandHandler(SocketMessage msg)
         {
-            // Check if message is really a command
+            // Check whether message is command or not
             string cmd = "";
             int cmdLength = -1;
+            char prefix = '!';
 
-            if (!msg.Content.StartsWith('!') ||
+            if (!msg.Content.StartsWith(prefix) ||
                 msg.Author.IsBot)
                 return Task.CompletedTask;
 
@@ -53,7 +54,15 @@ namespace DiscordMusicBot
 
             cmd = msg.Content.Substring(1, cmdLength - 1);
 
-
+            // List of commands
+            switch (cmd)
+            {
+                case "hello":
+                    msg.Channel.SendMessageAsync(msg.Author.Mention + "somebody once told me the world is gonna roll you");
+                    break;
+                default:
+                    break;
+            }
 
             return Task.CompletedTask;
         }
