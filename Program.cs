@@ -38,6 +38,7 @@ namespace DiscordMusicBot
         // Receives and processes every incoming discord message
         private Task CommandHandler(SocketMessage msg)
         {
+            // Check if message is really a command
             string cmd = "";
             int cmdLength = -1;
 
@@ -51,6 +52,8 @@ namespace DiscordMusicBot
                 cmdLength = msg.Content.Length;
 
             cmd = msg.Content.Substring(1, cmdLength - 1);
+
+
 
             return Task.CompletedTask;
         }
