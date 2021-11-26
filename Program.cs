@@ -15,6 +15,7 @@ namespace DiscordMusicBot
         {
             //initalize application
             _client = new DiscordSocketClient();
+            _client.MessageReceived += CommandHandler;
             _client.Log += Log;
 
             string _token = File.ReadAllText("token.txt");
@@ -29,6 +30,11 @@ namespace DiscordMusicBot
         private Task Log(LogMessage msg)
         {
             Console.WriteLine(msg.ToString());
+            return Task.CompletedTask;
+        }
+
+        private Task CommandHandler(SocketMessage msg)
+        {
             return Task.CompletedTask;
         }
     }
