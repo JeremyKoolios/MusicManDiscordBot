@@ -201,6 +201,7 @@ project.lock.json
 /.editorconfig
 .vscode/
 docs/api/\.manifest
+token.txt
 
 \.idea/
 
