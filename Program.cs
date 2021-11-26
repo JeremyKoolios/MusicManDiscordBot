@@ -17,7 +17,7 @@ namespace DiscordMusicBot
             _client = new DiscordSocketClient();
             _client.Log += Log;
 
-            string _token = File.ReadAllText("C:/Users/jerem/Desktop/Dev/projects/DiscordMusicBot/token.txt");
+            string _token = File.ReadAllText("token.txt");
 
             await _client.LoginAsync(TokenType.Bot, _token);
             await _client.StartAsync();
