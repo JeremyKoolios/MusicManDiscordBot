@@ -60,6 +60,9 @@ namespace DiscordMusicBot
                 case "hello":
                     msg.Channel.SendMessageAsync(msg.Author.Mention + "Somebody once told me the world is gonna roll me");
                     break;
+                case "age":
+                    msg.Channel.SendMessageAsync(msg.Author.Mention + "Your account was created at " + msg.Author.CreatedAt.DateTime.Date);
+                    break;
                 default:
                     break;
             }
