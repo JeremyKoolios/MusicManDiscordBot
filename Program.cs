@@ -52,7 +52,7 @@ namespace DiscordMusicBot
             else
                 cmdLength = msg.Content.Length;
 
-            cmd = msg.Content.Substring(1, cmdLength - 1);
+            cmd = msg.Content.Substring(1, cmdLength - 1).ToLower();
 
             // List of commands
             switch (cmd)
