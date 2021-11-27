@@ -15,11 +15,11 @@ namespace DiscordMusicBot.Modules
         public async Task JoinChannel(IVoiceChannel voiceChannel = null)
         {
             Console.WriteLine("join command executed");
-            await Context.Channel.SendMessageAsync("*joins voice channel*");
+            
 
             // Get the audio channel that the user is in
             voiceChannel = voiceChannel ?? (Context.User as IGuildUser)?.VoiceChannel;
-            if(voiceChannel == null)
+            if (voiceChannel == null)
             {
                 await Context.Channel.SendMessageAsync("You must be in a voice channel to use this command");
                 return;
