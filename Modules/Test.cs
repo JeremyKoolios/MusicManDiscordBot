@@ -16,5 +16,16 @@ namespace DiscordMusicBot.Modules
             Console.WriteLine("ping command executed");
             await Context.Channel.SendMessageAsync("pong!");
         }
+
+        [Command("age")]
+        [Summary("Responds with date of user's discord account creation")]
+        public async Task Age()
+        {
+            Console.WriteLine("age command executed");
+            await Context.Channel.SendMessageAsync(
+                Context.User.Mention +
+                "Your account was created at " +
+                Context.User.CreatedAt.DateTime.Date);
+        }
     }
 }
