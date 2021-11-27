@@ -1,0 +1,2 @@
+This folder is the song library
+Place any audio files in this folder to add it to the song library
