@@ -18,7 +18,7 @@ namespace DiscordMusicBot.Modules
         }
 
         [Command("age")]
-        [Summary("Responds with date of user's discord account creation")]
+        [Summary("Responds with date of user's account creation")]
         public async Task Age()
         {
             Console.WriteLine("age command executed");
