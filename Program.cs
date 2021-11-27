@@ -57,10 +57,8 @@ namespace DiscordMusicBot
             // List of commands
             switch (cmd)
             {
-                case "hello":
-                    msg.Channel.SendMessageAsync(
-                        msg.Author.Mention + 
-                        "Somebody once told me the world is gonna roll me");
+                case "ping":
+                    msg.Channel.SendMessageAsync("pong");
                     break;
                 case "age":
                     msg.Channel.SendMessageAsync(
