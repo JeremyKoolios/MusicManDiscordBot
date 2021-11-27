@@ -28,6 +28,7 @@ namespace DiscordMusicBot
 
         private async Task HandleCommandsAsync(SocketMessage messageParam)
         {
+            // If messageParam is system message, then return
             var message = messageParam as SocketUserMessage;
             if (message == null) return;
 
@@ -38,6 +39,7 @@ namespace DiscordMusicBot
                 message.Author.IsBot)
                 return;
 
+            // Creates a WebSocket-based command context based on the message
             var context = new SocketCommandContext(_client, message);
 
             await _commands.ExecuteAsync(
