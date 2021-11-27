@@ -1,4 +1,5 @@
 ﻿using Discord;
+using Discord.Commands;
 using Discord.WebSocket;
 using System;
 using System.IO;
@@ -9,6 +10,8 @@ namespace DiscordMusicBot
     public class Program
     {
         private DiscordSocketClient _client;
+        private CommandService _commands;
+        private CommandHandler _commandHandler;
 
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
         public async Task MainAsync()
@@ -22,7 +25,13 @@ namespace DiscordMusicBot
             await _client.LoginAsync(TokenType.Bot, token);
             await _client.StartAsync();
 
-            //keep application from closing
+            // CommandHandling
+            _commands = new CommandService();
+
+            _commandHandler = new CommandHandler(_client, _commands);
+            await _commandHandler.InstallCommandsAsync();
+
+            // Keep application from closing
             await Task.Delay(-1);
         }
 
