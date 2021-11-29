@@ -11,7 +11,7 @@ namespace DiscordMusicBot.Modules
     public class Music : ModuleBase<SocketCommandContext>
     {
         [Command("join", RunMode = RunMode.Async)]
-        [Summary("Joins a voice channel")]
+        [Summary("Joins the voice channel the user is in")]
         public async Task JoinChannel(IVoiceChannel voiceChannel = null)
         {
             Console.WriteLine("join command executed");

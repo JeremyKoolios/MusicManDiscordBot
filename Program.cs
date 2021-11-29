@@ -16,7 +16,7 @@ namespace DiscordMusicBot
         static void Main(string[] args) => new Program().MainAsync().GetAwaiter().GetResult();
         public async Task MainAsync()
         {
-            //initalize application
+            // Initalize application
             _client = new DiscordSocketClient();
             _client.Log += Log;
 
@@ -26,7 +26,7 @@ namespace DiscordMusicBot
             await _client.StartAsync();
 
             // CommandHandling
-            _commands = new CommandService();
+            _commands = new CommandService(); // CommandService is a framework for commands. It automatically gets Discord messages
 
             _commandHandler = new CommandHandler(_client, _commands);
             await _commandHandler.InstallCommandsAsync();
