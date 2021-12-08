@@ -7,7 +7,6 @@ namespace DiscordMusicBot
 {
     public class Program
     {
-        // Fake Main function
         static void Main(string[] args)
         {
             MainAsync().GetAwaiter().GetResult();
@@ -24,6 +23,16 @@ namespace DiscordMusicBot
                 Intents = DiscordIntents.AllUnprivileged
             });
             await discordClient.ConnectAsync();
+
+            // ping command
+            discordClient.MessageCreated += async (s, e) =>
+            {
+                if (e.Message.Content.ToLower().StartsWith("ping"))
+                    await e.Message.RespondAsync("pong!");
+            };
+
+
+
 
             // Keep application from closing
             await Task.Delay(-1);
