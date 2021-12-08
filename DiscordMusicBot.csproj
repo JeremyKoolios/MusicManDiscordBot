@@ -9,4 +9,8 @@
     <Folder Include="Songs\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <PackageReference Include="DSharpPlus" Version="4.1.0" />
+  </ItemGroup>
+
 </Project>

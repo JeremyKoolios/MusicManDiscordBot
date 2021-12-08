@@ -16,16 +16,19 @@ namespace DiscordMusicBot
         // Actual Main function
         static async Task MainAsync()
         {
+            // DiscordClient creation and connection
             DiscordClient discordClient = new DiscordClient(new DiscordConfiguration()
             {
                 Token = File.ReadAllText("token.txt"),
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.AllUnprivileged
             });
-        }
-            //string token = File.ReadAllText("C:/Users/jerem/Desktop/Dev/projects/DiscordMusicBot/bin/Debug/net5.0/token.txt");
+            await discordClient.ConnectAsync();
 
-            //// Keep application from closing
-            //await Task.Delay(-1);
+            // Keep application from closing
+            await Task.Delay(-1);
+        }
+
+            
     }
 }
