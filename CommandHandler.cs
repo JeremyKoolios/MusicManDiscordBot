@@ -20,6 +20,7 @@ namespace DiscordMusicBot
             _commands = commands;
         }
 
+        // Send incoming commands to be handled
         public async Task InstallCommandsAsync()
         {
             _client.MessageReceived += HandleCommandsAsync;
