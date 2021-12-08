@@ -194,8 +194,6 @@ FakesAssemblies/
 
 #Custom
 project.lock.json
-/test/Discord.Net.Tests/config.json
-/test/Discord.Net.Tests/cache.db*
 /docs/_build
 *.pyc
 /.editorconfig
