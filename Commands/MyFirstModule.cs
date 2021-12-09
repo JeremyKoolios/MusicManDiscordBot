@@ -11,7 +11,7 @@ namespace DiscordMusicBot.Commands
 {
     public class MyFirstModule : BaseCommandModule
     {
-        //this property is automatically populated by the service provider
+        //this property is insantiated by the service provider
         public Random Rng { private get; set; }
 
         [Command("random")]
