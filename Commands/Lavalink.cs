@@ -24,7 +24,7 @@ namespace DiscordMusicBot.Commands
             }
 
             var node = lava.ConnectedNodes.Values.First();
-            if(channel.Type != ChannelType.Voice)
+            if (channel.Type != ChannelType.Voice)
             {
                 await ctx.RespondAsync("You need to connect to a voice channel");
                 return;
@@ -37,7 +37,31 @@ namespace DiscordMusicBot.Commands
         [Command]
         public async Task Leave(CommandContext ctx, DiscordChannel channel)
         {
+            var lava = ctx.Client.GetLavalink();
+            if (!lava.ConnectedNodes.Any())
+            {
+                await ctx.RespondAsync("The Lavalink connection is not established");
+                return;
+            }
 
+            var node = lava.ConnectedNodes.Values.First();
+
+            if (channel.Type != ChannelType.Voice)
+            {
+                await ctx.RespondAsync("You need to connect to a voice channel");
+                return;
+            }
+
+            var conn = node.GetGuildConnection(channel.Guild);
+
+            if (conn == null)
+            {
+                await ctx.RespondAsync("Lavalink is not connected");
+                return;
+            }
+
+            await conn.DisconnectAsync();
+            await ctx.RespondAsync($"Left {channel.Name}");
         }
     }
 }
