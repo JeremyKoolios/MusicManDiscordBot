@@ -1,8 +1,11 @@
-﻿using DSharpPlus;
-using DSharpPlus.Entities;
+﻿using DiscordMusicBot.Commands;
+using DSharpPlus;
+using DSharpPlus.CommandsNext;
+using DSharpPlus.Lavalink;
+using DSharpPlus.Net;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
 
@@ -12,55 +15,59 @@ namespace DiscordMusicBot
     {
         static void Main(string[] args)
         {
-            MainAsync().GetAwaiter().GetResult();
+            MainAsync(args).ConfigureAwait(false).GetAwaiter().GetResult();
         }
 
         // Actual Main function
-        static async Task MainAsync()
+        static async Task MainAsync(string[] args)
         {
-            // DiscordClient creation and connection
-            DiscordClient discordClient = new DiscordClient(new DiscordConfiguration()
+            // Application configuration
+            var discord = new DiscordClient(new DiscordConfiguration()
             {
                 Token = File.ReadAllText("token.txt"),
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All, // Limits the type of events that the bot receives
                 MinimumLogLevel = LogLevel.Debug
             });
-            await discordClient.ConnectAsync();
 
-            // Message created event handled by lambda expression
-            // s contains instance of object that fired the event,
-            // e contains arguments for specific event that you're handling
-            discordClient.MessageCreated += async (s, e) =>
+            // Lavalink
+            var lavalinkEndpoint = new ConnectionEndpoint
             {
-                // ping command
-                if (e.Message.Content.ToLower().StartsWith("ping"))
-                    await e.Message.RespondAsync("pong!");
-
-                // daniel is epic command
-                // Use _ = Task.Run(async () => { code here } when dealing with commands that take long to run to prevent deadlocks)
-                _ = Task.Run(async () =>
-                {
-                    if (e.Message.Content.ToLower().StartsWith("daniel is epic"))
-                    {
-                        using (FileStream fs = new FileStream("C:/Users/jerem/Pictures/hotdoggy.png", FileMode.Open, FileAccess.Read))
-                        {
-                            DiscordMessage msg = await new DiscordMessageBuilder()
-                            .WithContent($"That's right is indeed epic {e.Author.Mention}")
-                            .WithFiles(new Dictionary<string, Stream>() { { "C:/Users/jerem/Pictures/hotdoggy.png", fs } })
-                            .WithReply(e.Message.Id)
-                            .WithAllowedMentions(new IMention[] { new UserMention(e.Author) })
-                            .SendAsync(e.Channel);
-                        }
-                    }
-                });
-                
+                // From Lavalink\application.yml
+                Hostname = "127.0.0.1",
+                Port = 2333
             };
+            var lavalinkConfig = new LavalinkConfiguration
+            {
+                // Password from Lavalink\application.yml
+                Password = "youshallnotpass",
+                RestEndpoint = lavalinkEndpoint,
+                SocketEndpoint = lavalinkEndpoint
+            };
+            var lavalink = discord.UseLavalink();
+
+            // Services
+            var services = new ServiceCollection()
+                .AddSingleton<Random>()
+                .BuildServiceProvider();
+
+            // Commands
+            var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
+            {
+                StringPrefixes = new string[] { "!" },
+                Services = services
+            });
+            commands.RegisterCommands<MyFirstModule>();
+            commands.RegisterCommands<Lavalink>();
+
+            // Connect to discord then lavalink
+            await discord.ConnectAsync();
+            await lavalink.ConnectAsync(lavalinkConfig);
+
+            
 
 
 
-
-            // Keep application from closing
             await Task.Delay(-1);
         }
 
