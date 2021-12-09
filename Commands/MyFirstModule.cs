@@ -11,9 +11,9 @@ namespace DiscordMusicBot.Commands
     public class MyFirstModule : BaseCommandModule
     {
         [Command("greet")]
-        public async Task GreetCommand(CommandContext ctx)
+        public async Task GreetCommand(CommandContext ctx, [RemainingText] string name)
         {
-            await ctx.RespondAsync("Howdy stranger");
+            await ctx.RespondAsync($"Howdy {name}");
         }
     }
 }
