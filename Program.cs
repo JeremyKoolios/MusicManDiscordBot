@@ -33,12 +33,13 @@ namespace DiscordMusicBot
             // e contains arguments for specific event that you're handling
             discordClient.MessageCreated += async (s, e) =>
             {
+                // Use _ = Task.Run(async () => { code here } when dealing with commands that take long to run to prevent deadlocks)
+
                 // ping command
                 if (e.Message.Content.ToLower().StartsWith("ping"))
                     await e.Message.RespondAsync("pong!");
 
                 // daniel is epic command
-                // Use _ = Task.Run(async () => { code here } when dealing with commands that take long to run to prevent deadlocks)
                 _ = Task.Run(async () =>
                 {
                     if (e.Message.Content.ToLower().StartsWith("daniel is epic"))
