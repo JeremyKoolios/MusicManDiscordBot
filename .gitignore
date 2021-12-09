@@ -201,8 +201,7 @@ project.lock.json
 docs/api/\.manifest
 token.txt
 Songs/*.mp3
-*.exe
-*.jar
+Lavalink/
 
 \.idea/
 
