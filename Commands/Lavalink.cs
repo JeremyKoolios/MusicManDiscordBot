@@ -63,5 +63,46 @@ namespace DiscordMusicBot.Commands
             await conn.DisconnectAsync();
             await ctx.RespondAsync($"Left {channel.Name}");
         }
+
+        [Command]
+        public async Task Play(CommandContext ctx, [RemainingText] string search)
+        {
+            if (ctx.Member.VoiceState == null || 
+                ctx.Member.VoiceState.Channel == null)
+            {
+                await ctx.RespondAsync("You need to be connected to a voice channel");
+                return;
+            }
+
+            var lava = ctx.Client.GetLavalink();
+            var node = lava.ConnectedNodes.Values.First();
+            var conn = node.GetGuildConnection(ctx.Member.VoiceState.Guild);
+
+            if (conn == null)
+            {
+                await ctx.RespondAsync("Lavalink is not connected");
+                return;
+            }
+        }
+        [Command]
+        public async Task Play(CommandContext ctx, Uri url)
+        {
+            if (ctx.Member.VoiceState == null ||
+                ctx.Member.VoiceState.Channel == null)
+            {
+                await ctx.RespondAsync("You need to be connected to a voice channel");
+                return;
+            }
+
+            var lava = ctx.Client.GetLavalink();
+            var node = lava.ConnectedNodes.Values.First();
+            var conn = node.GetGuildConnection(ctx.Member.VoiceState.Guild);
+
+            if (conn == null)
+            {
+                await ctx.RespondAsync("Lavalink is not connected");
+                return;
+            }
+        }
     }
 }
