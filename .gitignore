@@ -202,8 +202,7 @@ docs/api/\.manifest
 token.txt
 Songs/*.mp3
 *.exe
-*.jar
-*.yml
+Lavalink/
 
 \.idea/
 
