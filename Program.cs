@@ -2,7 +2,9 @@
 using DSharpPlus;
 using DSharpPlus.CommandsNext;
 using DSharpPlus.Entities;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Threading.Tasks;
@@ -19,24 +21,28 @@ namespace DiscordMusicBot
         // Actual Main function
         static async Task MainAsync()
         {
-            // Client creation
-            DiscordClient discordClient = new DiscordClient(new DiscordConfiguration()
+            // Application configuration
+            var discord = new DiscordClient(new DiscordConfiguration()
             {
                 Token = File.ReadAllText("token.txt"),
                 TokenType = TokenType.Bot,
                 Intents = DiscordIntents.All, // Limits the type of events that the bot receives
                 MinimumLogLevel = LogLevel.Debug
             });
-
-            // Command Handling
-            CommandsNextExtension commands = discordClient.UseCommandsNext(new CommandsNextConfiguration()
+            var services = new ServiceCollection()
+                .AddSingleton<Random>()
+                .BuildServiceProvider();
+            var commands = discord.UseCommandsNext(new CommandsNextConfiguration()
             {
-                StringPrefixes = new[] { "!" }
+                StringPrefixes = new string[] { "!" },
+                Services = services
             });
+
+            // Register modules
             commands.RegisterCommands<MyFirstModule>();
 
-            // Connection
-            await discordClient.ConnectAsync();
+            // Connect client to discord
+            await discord.ConnectAsync();
 
             
 

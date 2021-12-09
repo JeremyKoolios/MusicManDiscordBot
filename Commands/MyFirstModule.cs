@@ -11,12 +11,13 @@ namespace DiscordMusicBot.Commands
 {
     public class MyFirstModule : BaseCommandModule
     {
+        //this property is automatically populated by the service provider
+        public Random Rng { private get; set; }
 
         [Command("random")]
         public async Task RandomCommand(CommandContext ctx, int min, int max)
         {
-            Random random = new Random();
-            await ctx.RespondAsync($"Your random number is: {random.Next(min, max)}!");
+            await ctx.RespondAsync($"Your random number is: {Rng.Next(min, max)}!");
         }
 
 
