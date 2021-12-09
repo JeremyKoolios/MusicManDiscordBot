@@ -13,7 +13,7 @@ namespace DiscordMusicBot.Commands
 {
     public class Lavalink : BaseCommandModule
     {
-        [Command]
+        [Command("join")]
         public async Task Join(CommandContext ctx, DiscordChannel channel)
         {
             var lava = ctx.Client.GetLavalink();
@@ -34,7 +34,7 @@ namespace DiscordMusicBot.Commands
             await ctx.RespondAsync($"Joined {channel.Name}");
         }
 
-        [Command]
+        [Command("leave")]
         public async Task Leave(CommandContext ctx, DiscordChannel channel)
         {
             var lava = ctx.Client.GetLavalink();
@@ -56,7 +56,7 @@ namespace DiscordMusicBot.Commands
 
             if (conn == null)
             {
-                await ctx.RespondAsync("Lavalink is not connected");
+                await ctx.RespondAsync("[Leave] Lavalink is not connected");
                 return;
             }
 
@@ -64,7 +64,7 @@ namespace DiscordMusicBot.Commands
             await ctx.RespondAsync($"Left {channel.Name}");
         }
 
-        [Command]
+        [Command("play")]
         public async Task Play(CommandContext ctx, [RemainingText] string search)
         {
             if (ctx.Member.VoiceState == null || 
@@ -83,6 +83,22 @@ namespace DiscordMusicBot.Commands
                 await ctx.RespondAsync("Lavalink is not connected");
                 return;
             }
+
+            // search for track on youtube
+            var loadResult = await node.Rest.GetTracksAsync(search);
+
+            if (loadResult.LoadResultType == LavalinkLoadResultType.LoadFailed ||
+                loadResult.LoadResultType == LavalinkLoadResultType.NoMatches)
+            {
+                await ctx.RespondAsync($"Could not find any tracks when searching for {search}");
+                return;
+            }
+
+            var track = loadResult.Tracks.First();
+
+            // Play track
+            await conn.PlayAsync(track);
+            await ctx.RespondAsync($"Now playing {track.Title}");
         }
         [Command]
         public async Task Play(CommandContext ctx, Uri url)
