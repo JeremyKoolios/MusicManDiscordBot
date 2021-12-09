@@ -203,6 +203,7 @@ token.txt
 Songs/*.mp3
 *.exe
 *.jar
+*.yml
 
 \.idea/
 
