@@ -14,7 +14,7 @@ namespace DiscordMusicBot.Commands
     public class Lavalink : BaseCommandModule
     {
         [Command("join")]
-        public async Task Join(CommandContext ctx, DiscordChannel channel)
+        public async Task Join(CommandContext ctx, [RemainingText] DiscordChannel channel)
         {
             var lava = ctx.Client.GetLavalink();
             if (!lava.ConnectedNodes.Any())
@@ -35,7 +35,7 @@ namespace DiscordMusicBot.Commands
         }
 
         [Command("leave")]
-        public async Task Leave(CommandContext ctx, DiscordChannel channel)
+        public async Task Leave(CommandContext ctx, [RemainingText] DiscordChannel channel)
         {
             var lava = ctx.Client.GetLavalink();
             if (!lava.ConnectedNodes.Any())
@@ -100,6 +100,7 @@ namespace DiscordMusicBot.Commands
             await conn.PlayAsync(track);
             await ctx.RespondAsync($"Now playing {track.Title}");
         }
+
         [Command]
         public async Task Play(CommandContext ctx, Uri url)
         {
